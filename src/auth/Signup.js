@@ -1,42 +1,62 @@
-import React, { useState } from 'react';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import React, { useState } from "react";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
 const Signup = (props) => {
-    const [username, setUsername] = useState('');
-    const [passwordhash, setPasswordhash] = useState('');
+    const [username, setUsername] = useState("");
+    const [passwordhash, setPasswordHash] = useState("");
 
     let handleSubmit = (event) => {
         event.preventDefault();
         fetch("http://localhost:3000/user/register", {
-            method: 'POST',
-            body: JSON.stringify({user:{username: username, passwordhash: passwordhash}}),
+        
+            method: "POST",
+            body: JSON.stringify({
+                user: { username: username, passwordhash: passwordhash },
+            }),
             headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        }).then(
-            (response) => response.json()
-        ).then((data) => {
-            props.updateToken(data.sessionToken)
+                "Content-Type": "application/json",
+            }),
         })
-        console.log(username, passwordhash);
-    }
+    
+            .then(
+                (response) => response.json()
+            )
+            .then((data) => {
+                props.updateToken(data.sessionToken);
+            })
+            
+                    // if (Input.value === "") {
+                    //     Input.style.background = "Yellow";
+                    //     let error = "You didn't enter a username.";
+                    //     alert(error);
+                    //      return false;
+                    // }
+    };
 
     return (
         <div>
-            <h1>Sign Up</h1>
+            <h1>Signup</h1>
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label htmlFor="username">Username</Label>
-                    <Input onChange={(e) => setUsername(e.target.value)} name="username" value={username} />
+                    <Input
+                        onChange={(e) => setUsername(e.target.value)}
+                        name="username"
+                        value={username}
+                    />
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor="passwordhash">Password</Label>
-                    <Input onChange={(e) => setPasswordhash(e.target.value)} name="passwordhash" value={passwordhash} />
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                        onChange={(e) => setPasswordHash(e.target.value)}
+                        name="passwordhash"
+                        value={passwordhash}
+                    />
                 </FormGroup>
-                <Button type="submit">Sign Up</Button>
+                <Button type="submit">Signup</Button>
             </Form>
         </div>
-    )
-}
+    );
+};
 
 export default Signup;
